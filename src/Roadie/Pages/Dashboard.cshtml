@@ -3,4 +3,15 @@
 @{
 }
 
-<p>Hi :)</p>
+@foreach (var id in User.Identities)
+{
+    <dt>@id.AuthenticationType</dt>
+    <dd>@id.Name</dd>
+}
+
+<h1>Servers where you have ManageServer:</h1>
+
+@foreach (var guild in Model.DiscordGuilds)
+{
+    <p>@guild.ToString()</p>
+}

@@ -9,11 +9,22 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@if (!User.Identity.IsAuthenticated) 
-{
-    <a asp-controller="Login" asp-action="Discord" class="btn btn-outline-primary">Log In with Discord</a>
-} 
-else 
-{
-    <p>Yer logged in @Model.DiscordUser.ToString()</p>
-}
+<h2>User Claims</h2>
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+
+<h2>Authentication Properties</h2>
+
+<dl>
+    @foreach (var id in User.Identities)
+    {
+        <dt>@id.AuthenticationType</dt>
+        <dd>@id.Name</dd>
+    }
+</dl>

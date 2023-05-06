@@ -26,8 +26,7 @@ namespace Roadie.Authentication
         {
             var request = new HttpRequestMessage(HttpMethod.Get, Options.UserInformationEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-            request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>() { new("access_token", tokens.AccessToken!) });
+            request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>() { new("access_token", tokens.AccessToken) });
 
             using var response = await Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, Context.RequestAborted);
             if (!response.IsSuccessStatusCode)
@@ -39,8 +38,7 @@ namespace Roadie.Authentication
 
             using var payload = JsonDocument.Parse(await response.Content.ReadAsStringAsync(Context.RequestAborted));
 
-            var principal = new ClaimsPrincipal(identity);
-            var context = new OAuthCreatingTicketContext(principal, properties, Context, Scheme, Options, Backchannel, tokens, payload.RootElement);
+            var context = new OAuthCreatingTicketContext(new ClaimsPrincipal(identity), properties, Context, Scheme, Options, Backchannel, tokens, payload.RootElement);
             context.RunClaimActions();
 
             await Events.CreatingTicket(context);

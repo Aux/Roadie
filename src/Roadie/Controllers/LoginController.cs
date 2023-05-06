@@ -1,24 +1,31 @@
 ﻿using AspNet.Security.OAuth.Discord;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Roadie.Authentication;
 
 namespace Roadie.Controllers
 {
+    [AllowAnonymous]
     [Route("login")]
     public class LoginController : Controller
     {
         [HttpGet("discord")]
-        public IActionResult Discord()
+        public IActionResult LoginDiscord(string returnUrl = "/dashboard")
         {
-            if (User.Identity.IsAuthenticated) return RedirectToPagePermanentPreserveMethod("/dashboard");
-            return Challenge(DiscordAuthenticationDefaults.AuthenticationScheme);
+            return Challenge(new AuthenticationProperties
+            {
+                RedirectUri = returnUrl
+            }, DiscordAuthenticationDefaults.AuthenticationScheme);
         }
 
         [HttpGet("gumroad")]
-        public IActionResult Gumroad(string returnUrl = "/")
+        public IActionResult LoginGumroad(string returnUrl = "/dashboard")
         {
-            if (User.Identity.IsAuthenticated) return Redirect(returnUrl);
-            return Challenge(GumroadAuthenticationDefaults.AuthenticationScheme);
+            return Challenge(new AuthenticationProperties
+            {
+                RedirectUri = returnUrl
+            }, GumroadAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }
