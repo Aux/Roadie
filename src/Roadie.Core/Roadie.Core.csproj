@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>disable</Nullable>
+    <RootNamespace>Roadie</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="3.10.0" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.3.0" />
+    <PackageReference Include="RestEase" Version="1.6.4" />
+    <PackageReference Include="RestEase.HttpClientFactory" Version="1.6.4" />
+    <PackageReference Include="RestEase.SourceGenerator" Version="1.6.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>
