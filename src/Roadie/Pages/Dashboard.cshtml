@@ -3,15 +3,52 @@
 @{
 }
 
-@foreach (var id in User.Identities)
-{
-    <dt>@id.AuthenticationType</dt>
-    <dd>@id.Name</dd>
-}
+<h3>Available Discord servers:</h3>
 
-<h1>Servers where you have ManageServer:</h1>
+<br />
+<h6>Administrator, can create/edit/delete role bindings and manage bot configuration.</h6>
 
-@foreach (var guild in Model.DiscordGuilds)
-{
-    <p>@guild.ToString()</p>
-}
+<div class="row">
+    @foreach (var guild in Model.DiscordGuilds.Where(x => x.IconUrl != null && x.Permissions.Administrator))
+    {
+        <div class="col-6 col-sm-1">
+            <img src="@guild.IconUrl" class="shadow-lg rounded-circle" style="max-height: 100px; max-width: 100px" />
+            <p class="text-center">@guild.ToString()</p>
+        </div>
+    }
+</div>
+
+<br />
+<h6>Moderator, can make changes to existing product role bindings.</h6>
+
+<div class="row">
+    @foreach (var guild in Model.DiscordGuilds.Where(x => x.IconUrl != null && x.Permissions.ManageRoles))
+    {
+        <div class="col-6 col-sm-1">
+            <img src="@guild.IconUrl" class="shadow-lg rounded-circle" style="max-height: 100px; max-width: 100px" />
+            <p class="text-center">@guild.ToString()</p>
+        </div>
+    }
+</div>
+
+<br />
+<br />
+<h3>Available Gumroad products:</h3>
+<br/>
+
+<div class="row row-cols-2 gap-3">
+    @foreach (var product in Model.GumroadProducts.Where(x => x.IsPublished))
+    {
+    <div class="col-sm-2 gap-3">
+        <div class="card shadow-lg">
+            <picture class="d-flex align-items-center" style="min-height: 200px; max-height: 200px; background-color:lightgray">
+                <source srcset="@product.PreviewImageUrl" type="image/jpeg" />
+                <img src="https://placehold.co/200x200.png" class="card-img-top" alt="Image Not Found"
+                     style="max-height: 200px;" />
+            </picture>
+            <div class="card-header">@product.Name</div>
+            <a href="@product.ShortUrl" class="btn btn-secondary m-2 p-0 stretched-link">Configure Roles</a>
+        </div>
+    </div>
+    }
+</div>
