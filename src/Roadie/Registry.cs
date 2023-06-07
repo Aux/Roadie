@@ -5,10 +5,10 @@ using Discord.WebSocket;
 using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Roadie.Authentication;
 using RestEase.HttpClientFactory;
+using Roadie.Authentication;
 using Roadie.Gumroad;
-using RestEase;
+using Roadie.Services;
 
 namespace Roadie
 {
@@ -64,6 +64,9 @@ namespace Roadie
                     LogLevel = LogSeverity.Verbose
                 });
             });
+
+            builder.Services.AddHostedService<DiscordStartupService>();
+            builder.Services.AddHostedService<InteractionHandlingService>();
         }
 
         public static void AddGumroad(this WebApplicationBuilder builder)
